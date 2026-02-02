@@ -17,6 +17,9 @@ public enum Server {
     /// Test.
     case test
 
+    /// Custom.
+    case custom(String)
+
 #if os(iOS)
     private static let vector = "appplay"
 #else
@@ -31,6 +34,8 @@ public enum Server {
             URL(string: "https://il-stage.srgssr.ch")!
         case .test:
             URL(string: "https://il-test.srgssr.ch")!
+        case .custom(let baseUrl):
+            URL(string: baseUrl)!
         }
     }
 
