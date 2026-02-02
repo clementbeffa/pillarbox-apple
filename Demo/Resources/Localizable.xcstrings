@@ -7,6 +7,9 @@
     "-%llds" : {
 
     },
+    "%@ will start in" : {
+
+    },
     "%g×" : {
 
     },
@@ -115,6 +118,9 @@
 
     },
     "Buffering" : {
+
+    },
+    "Button" : {
 
     },
     "Cancel" : {
@@ -270,6 +276,9 @@
     "Media requests" : {
 
     },
+    "Menu" : {
+
+    },
     "Metadata" : {
 
     },
@@ -280,6 +289,9 @@
 
     },
     "Miscellaneous player features (using Pillarbox)" : {
+
+    },
+    "Mode" : {
 
     },
     "Monitoring" : {
@@ -390,6 +402,9 @@
     "Reset" : {
 
     },
+    "Route picker" : {
+
+    },
     "Search" : {
 
     },
@@ -460,9 +475,6 @@
 
     },
     "System Player and Picture in Picture (PiP) support" : {
-
-    },
-    "Tap to retry" : {
 
     },
     "TestFlight builds" : {
