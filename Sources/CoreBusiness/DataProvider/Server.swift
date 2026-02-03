@@ -18,7 +18,7 @@ public enum Server {
     case test
 
     /// Custom.
-    case custom(String)
+    case custom(baseURL: String, headers: [String: String] = [:])
 
 #if os(iOS)
     private static let vector = "appplay"
@@ -34,8 +34,8 @@ public enum Server {
             URL(string: "https://il-stage.srgssr.ch")!
         case .test:
             URL(string: "https://il-test.srgssr.ch")!
-        case .custom(let baseUrl):
-            URL(string: baseUrl)!
+        case .custom(let baseURL, _):
+            URL(string: baseURL)!
         }
     }
 
@@ -48,7 +48,13 @@ public enum Server {
             URLQueryItem(name: "onlyChapters", value: "true"),
             URLQueryItem(name: "vector", value: Self.vector)
         ]
-        return .init(url: components.url ?? url)
+        var request = URLRequest.init(url: components.url ?? url)
+        if case .custom(_, let headers) = self, headers.isEmpty == false {
+            headers.forEach { key, value in
+                request.setValue(value, forHTTPHeaderField: key)
+            }
+        }
+        return request
     }
 
     func resizedImageUrl(_ url: URL, width: ImageWidth) -> URL {
