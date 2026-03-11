@@ -32,11 +32,15 @@ let package = Package(
         .library(
             name: "PillarboxMonitoring",
             targets: ["PillarboxMonitoring"]
+        ),
+        .library(
+            name: "PillarboxStandardConnector",
+            targets: ["PillarboxStandardConnector"]
         )
     ],
     dependencies: [
         .package(url: "https://github.com/comScore/Comscore-Swift-Package-Manager.git", .upToNextMinor(from: "6.16.0")),
-        .package(url: "https://github.com/CommandersAct/iOSV5.git", .upToNextMinor(from: "5.4.0")),
+        .package(url: "https://github.com/CommandersAct/iOSV5.git", .upToNextMajor(from: "5.4.19")),
         .package(url: "https://github.com/apple/swift-collections.git", .upToNextMajor(from: "1.0.0")),
         .package(url: "https://github.com/krzysztofzablocki/Difference.git", exact: "1.0.1"),
         .package(url: "https://github.com/Quick/Nimble.git", .upToNextMajor(from: "13.0.0"))
@@ -72,7 +76,8 @@ let package = Package(
             name: "PillarboxCoreBusiness",
             dependencies: [
                 .target(name: "PillarboxAnalytics"),
-                .target(name: "PillarboxMonitoring")
+                .target(name: "PillarboxMonitoring"),
+                .target(name: "PillarboxStandardConnector")
             ],
             path: "Sources/CoreBusiness",
             resources: [
@@ -113,6 +118,16 @@ let package = Package(
             ],
             plugins: [
                 .plugin(name: "PillarboxPackageInfoPlugin")
+            ]
+        ),
+        .target(
+            name: "PillarboxStandardConnector",
+            dependencies: [
+                .target(name: "PillarboxPlayer")
+            ],
+            path: "Sources/StandardConnector",
+            resources: [
+                .process("Resources")
             ]
         ),
         .target(
@@ -175,6 +190,13 @@ let package = Package(
             ],
             resources: [
                 .process("Resources")
+            ]
+        ),
+        .testTarget(
+            name: "StandardConnectorTests",
+            dependencies: [
+                .target(name: "PillarboxCircumspect"),
+                .target(name: "PillarboxStandardConnector")
             ]
         )
     ],

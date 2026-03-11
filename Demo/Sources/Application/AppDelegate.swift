@@ -12,7 +12,7 @@ import ShowTime
 import SRGDataProvider
 import UIKit
 
-@_spi(Private)
+@_spi(CoreBusinessPrivate)
 import PillarboxCoreBusiness
 
 final class AppDelegate: NSObject, UIApplicationDelegate {
@@ -72,7 +72,7 @@ extension AppDelegate: AnalyticsDataSource {
     }
 
     var commandersActGlobals: CommandersActGlobals {
-        .init(consentServices: ["service1", "service2", "service3"], labels: [
+        .init(consentServices: ["service1", "service2", "service3"], profileIdentifier: "profile", labels: [
             "demo_key": "demo_value"
         ])
     }
