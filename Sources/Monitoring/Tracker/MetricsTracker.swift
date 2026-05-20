@@ -23,7 +23,7 @@ public final class MetricsTracker: PlayerItemTracker {
     private var stallDuration: TimeInterval = 0
     private var cancellables = Set<AnyCancellable>()
 
-    private let stopwatch = Stopwatch()
+    private let stopwatch = Stopwatch(clock: .suspending)
 
     // swiftlint:disable:next missing_docs
     public var sessionIdentifier: String? {
@@ -148,7 +148,8 @@ private extension MetricsTracker {
             player: .init(
                 name: "Pillarbox",
                 platform: "Apple",
-                version: Player.version
+                version: Player.version,
+                language: Self.playerLanguage
             ),
             media: .init(
                 assetUrl: metadata?.assetUrl,
@@ -184,7 +185,7 @@ private extension MetricsTracker {
             bufferedDuration: Self.bufferedDuration(from: properties),
             duration: Self.duration(from: properties),
             frameDrops: metrics?.total.numberOfDroppedVideoFrames,
-            playbackDuration: stopwatch.time().toMilliseconds,
+            playbackDuration: stopwatch.timeInterval().toMilliseconds,
             position: Self.position(from: properties),
             positionTimestamp: Self.positionTimestamp(from: properties),
             stall: .init(
@@ -245,6 +246,7 @@ private extension MetricsTracker {
 private extension MetricsTracker {
     static let applicationId = Bundle.main.bundleIdentifier
     static let applicationVersion = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String
+    static let playerLanguage = Bundle.main.preferredLocalizations.first
 }
 
 private extension MetricsTracker {

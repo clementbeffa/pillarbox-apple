@@ -112,7 +112,7 @@ extension AVPlayerItem {
     }
 
     private func isEndedPublisher() -> AnyPublisher<Bool, Never> {
-        Publishers.Merge(endTimeNotificationPublisher(), timebaseUpdateNotificationPublisher())
+        Publishers.Merge(endTimeNotificationPublisher(), timeJumpedNotificationPublisher())
             .prepend(false)
             .removeDuplicates()
             .eraseToAnyPublisher()
@@ -124,9 +124,8 @@ extension AVPlayerItem {
             .eraseToAnyPublisher()
     }
 
-    private func timebaseUpdateNotificationPublisher() -> AnyPublisher<Bool, Never> {
-        publisher(for: \.timebase)
-            .compactMap(\.self)
+    private func timeJumpedNotificationPublisher() -> AnyPublisher<Bool, Never> {
+        NotificationCenter.default.weakPublisher(for: AVPlayerItem.timeJumpedNotification, object: self)
             .map { _ in false }
             .eraseToAnyPublisher()
     }
@@ -186,12 +185,11 @@ extension AVPlayerItem {
     func assetMetricEventPublisher() -> AnyPublisher<MetricEvent, Never> {
         publisher(for: \.isPlaybackLikelyToKeepUp)
             .first(where: \.self)
-            .measureDateInterval()
+            .measureInterval(clock: .suspending)
             .weakCapture(self)
-            .map { dateInterval, item in
+            .map { interval, item in
                 MetricEvent(
-                    kind: .asset(experience: dateInterval),
-                    date: dateInterval.end,
+                    kind: .asset(experience: interval.duration),
                     time: item.currentTime()
                 )
             }

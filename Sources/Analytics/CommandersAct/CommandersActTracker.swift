@@ -20,7 +20,7 @@ public final class CommandersActTracker: PlayerItemTracker {
     private var lastEvent: Event = .none
 
     private let configuration: CommandersActSource?
-    private let stopwatch = Stopwatch()
+    private let stopwatch = Stopwatch(clock: .suspending)
     private let heartbeat: CommandersActHeartbeat
 
     // swiftlint:disable:next missing_docs
@@ -120,6 +120,7 @@ private extension CommandersActTracker {
         labels["media_subtitles_on"] = subtitleOn(from: properties)
         labels["media_subtitle_selection"] = subtitleSelection(from: properties)
         labels["media_airplay_on"] = externalPlaybackActive(from: properties)
+        labels["media_google_cast"] = "false"
 
         switch properties.streamType {
         case .onDemand:
@@ -187,7 +188,7 @@ private extension CommandersActTracker {
     }
 
     func playbackDuration() -> Int {
-        Int(stopwatch.time().rounded())
+        Int(stopwatch.timeInterval().rounded())
     }
 
     func timeshiftOffset(from properties: TrackerProperties) -> Int {

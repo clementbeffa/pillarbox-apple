@@ -65,14 +65,6 @@ The media type can be `.unknown` if an AirPlay session was established before pl
 
 No workaround is available yet.
 
-## Audio duration is zero in Mac applications "Designed for iPad" (FB12765347)
-
-Pillarbox can be used in iPad applications run on Silicon Macs (_Designed for iPad_ destination) but audios played will have a reported duration of zero. As a result progress reported by `ProgressTracker` also remains stuck at zero.
-
-### Workaround
-
-No workaround is available yet.
-
 ## AirPlay does not work in Mac applications "Designed for iPad" (FB15343579)
 
 Pillarbox can be used in iPad applications run on Silicon Macs (_Designed for iPad_ destination) but AirPlay does not work. Playback fails.
@@ -184,6 +176,22 @@ Apps that require this behavior to be handled correctly can manage [audio sessio
 ## FairPlay-protected content playback fails with Lightning adapter (A1438) on iOS 18 and above (FB22052832)
 
 When using an official Lightning-to-HDMI Apple adapter (A1438) to connect a Lightning-equipped iOS device to a screen, using an appropriate HDMI cable, playback always fails with an error when playing FairPlay protected content on iOS 18 and 26.
+
+### Workaround
+
+No workaround is available yet.
+
+## The `.pauses` audiovisual background playback policy is no longer correctly applied on iOS 26.4 (FB22488151)
+
+With the`.automatic` or `.pauses` audiovisual background playback policy enabled, video playback continues instead of being automatically paused by the system when the app moves to the background or the device is locked.
+
+### Workaround
+
+No workaround is available yet.
+
+## Negative metrics after audio track switch (FB22519249)
+
+Some increments reported in `Metrics` may contain negative values immediately following an audio track switch.
 
 ### Workaround
 

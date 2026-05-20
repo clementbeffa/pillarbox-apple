@@ -45,6 +45,7 @@ extension MetricStartData {
         let name: String
         let platform: String
         let version: String
+        let language: String?
     }
 
     struct ExperienceTimings: Encodable {
@@ -72,7 +73,7 @@ extension MetricStartData {
         private static func metadata(from event: MetricEvent) -> Int? {
             switch event.kind {
             case let .metadata(experience: experience, service: _):
-                return experience.duration.toMilliseconds
+                return experience.toMilliseconds
             default:
                 return nil
             }
@@ -81,7 +82,7 @@ extension MetricStartData {
         private static func asset(from event: MetricEvent) -> Int? {
             switch event.kind {
             case let .asset(experience: experience):
-                return experience.duration.toMilliseconds
+                return experience.toMilliseconds
             default:
                 return nil
             }
@@ -98,7 +99,7 @@ extension MetricStartData {
         private static func metadata(from event: MetricEvent) -> Int? {
             switch event.kind {
             case let .metadata(experience: _, service: service):
-                return service.duration.toMilliseconds
+                return service.toMilliseconds
             default:
                 return nil
             }

@@ -76,6 +76,19 @@ final class CommandersActTrackerTests: CommandersActTestCase {
         }
     }
 
+    func testPlaybackWithPauseActionAtItemEnd() {
+        let player = Player(item: .simple(
+            url: Stream.mediumOnDemand.url,
+            trackerAdapters: [
+                CommandersActTracker.adapter(configuration: nil) { _ in .test }
+            ]
+        ))
+        expectAtLeastHits(play(), eof()) {
+            player.actionAtItemEnd = .pause
+            player.play()
+        }
+    }
+
     func testDestroyPlayerDuringPlayback() {
         var player: Player? = Player(item: .simple(
             url: Stream.onDemand.url,
@@ -202,6 +215,23 @@ final class CommandersActTrackerTests: CommandersActTestCase {
 
         expectAtLeastHits(play()) {
             player.isTrackingEnabled = true
+            player.play()
+        }
+    }
+
+    func testCommonLabels() {
+        let player = Player(item: .simple(
+            url: Stream.onDemand.url,
+            trackerAdapters: [
+                CommandersActTracker.adapter(configuration: nil) { _ in .test }
+            ]
+        ))
+        expectAtLeastHits(
+            play { labels in
+                expect(labels.media_player_display).to(equal("Pillarbox"))
+                expect(labels.media_google_cast).to(beFalse())
+            }
+        ) {
             player.play()
         }
     }
